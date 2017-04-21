@@ -113,6 +113,7 @@
 				TargetAttributes = {
 					3F90EB6F1EA4892700AC56E8 = {
 						CreatedOnToolsVersion = 8.3.1;
+						DevelopmentTeam = 82C7WMMG6G;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
@@ -280,7 +281,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = 82C7WMMG6G;
 				INFOPLIST_FILE = AnnotateLocation/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = sg.edu.nus.iss.wlad.AnnotateLocation;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -295,7 +298,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = 82C7WMMG6G;
 				INFOPLIST_FILE = AnnotateLocation/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = sg.edu.nus.iss.wlad.AnnotateLocation;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -323,6 +328,7 @@
 				3F90EB841EA4892700AC56E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
