@@ -176,7 +176,7 @@
 				TargetAttributes = {
 					71C9C17619AF623B00408F0D = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = CLM48J86JP;
+						DevelopmentTeam = 82C7WMMG6G;
 						LastSwiftMigration = 0820;
 					};
 					71C9C18A19AF623C00408F0D = {
@@ -350,6 +350,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 82C7WMMG6G;
 				INFOPLIST_FILE = GoogleSearchJSON/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -370,6 +371,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 82C7WMMG6G;
 				INFOPLIST_FILE = GoogleSearchJSON/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

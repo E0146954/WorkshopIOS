@@ -8,8 +8,9 @@
 
 import UIKit
 
-class ViewController: UIViewController,UITableViewController,UITableViewDelegate {
-
+class ViewController: UIViewController,UITableViewDataSource {
+    
+    var contacts: [Contact]!
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var address: UITextField!
     @IBOutlet weak var phone: UITextField!
@@ -18,13 +19,16 @@ class ViewController: UIViewController,UITableViewController,UITableViewDelegate
     var contactDB : OpaquePointer? = nil;  // pointer to the database
     var insertStatement : OpaquePointer? = nil;  // pointer to the prepared
     //statement
+    @IBOutlet weak var tableView: UITableView!
     var selectStatement : OpaquePointer? = nil;
     var updateStatement : OpaquePointer? = nil;
     var deleteStatement : OpaquePointer? = nil;
+    var queryStatement : OpaquePointer? = nil;
     let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        contacts = []
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         print(paths)
         let docsDir = paths + "/contacts.sqlite"
@@ -40,6 +44,8 @@ class ViewController: UIViewController,UITableViewController,UITableViewDelegate
             print(sqlite3_errmsg(contactDB));
         }
         prepareStartment();
+        tableView.dataSource = self
+        getAllContactData()
     }
     
     func prepareStartment () {
@@ -53,11 +59,37 @@ class ViewController: UIViewController,UITableViewController,UITableViewDelegate
         sqlString = "UPDATE CONTACTS SET address = ?, phone =? WHERE name = ?"
         cSql = sqlString.cString(using: String.Encoding.utf8)
         sqlite3_prepare_v2(contactDB, cSql!, -1, &updateStatement,nil)
-        sqlString = "DELETE FROM CONTACTS WHERE name = ?";
+        sqlString = "DELETE FROM CONTACTS WHERE name = ?"
         cSql = sqlString.cString(using: String.Encoding.utf8)
         sqlite3_prepare_v2(contactDB, cSql!, -1, &deleteStatement,nil)
+        sqlString = "SELECT name, address, phone FROM CONTACTS order by name asc "
+        cSql = sqlString.cString(using: String.Encoding.utf8)
+        sqlite3_prepare_v2(contactDB, cSql!, -1, &queryStatement,nil)
     }
     
+    func getAllContactData() {
+        contacts.removeAll()
+        
+        while sqlite3_step(queryStatement) == SQLITE_ROW {
+            
+            let current = Contact()
+            
+            let name_buf = sqlite3_column_text(queryStatement, 0)
+            current.name = String(cString: name_buf!)
+            
+            let address_buf = sqlite3_column_text(queryStatement, 1)
+            current.address = String(cString: address_buf!)
+            
+            let phone_buf = sqlite3_column_text(queryStatement, 2)
+            current.phone  = String(cString: phone_buf!)
+            
+            contacts.append(current)
+        }
+        
+        sqlite3_reset(queryStatement)
+        
+        tableView.reloadData()
+    }
  
     @IBAction func createContact(_ sender: Any) {
         let nameStr = name.text as NSString?
@@ -140,25 +172,23 @@ class ViewController: UIViewController,UITableViewController,UITableViewDelegate
         sqlite3_reset(deleteStatement);
         sqlite3_clear_bindings(deleteStatement);
     }
-    @IBOutlet weak var tableView: UITableView!
+ 
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     // set the number of rows in the table view
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // names is an array of string
-        var data = Array(stmt)
-        return data.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return contacts.count
         
     }
     
     // set the contents of the tableview
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)-> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath)-> UITableViewCell {
         let cell = UITableViewCell()
         // names is an array of string
-        let name = names[indexPath.row] as String
-        cell.textLabel?.text = name
+        let currentContact = contacts[indexPath.row] as Contact
+        cell.textLabel?.text = currentContact.name! + " - " + currentContact.address! + " ( " + currentContact.phone! + " )"
         return cell
     }
     

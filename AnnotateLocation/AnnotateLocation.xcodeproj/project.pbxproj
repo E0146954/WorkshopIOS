@@ -14,6 +14,7 @@
 		3F90EB7E1EA4892700AC56E8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F90EB7C1EA4892700AC56E8 /* LaunchScreen.storyboard */; };
 		3F90EB871EA48B4E00AC56E8 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F90EB861EA48B4E00AC56E8 /* libsqlite3.0.tbd */; };
 		3F90EB8A1EA48C0300AC56E8 /* Bridging-Header.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F90EB891EA48C0300AC56E8 /* Bridging-Header.m */; };
+		E17DDBCB1EAF264F00AB3BB1 /* contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17DDBCA1EAF264F00AB3BB1 /* contacts.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		3F90EB861EA48B4E00AC56E8 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		3F90EB881EA48C0200AC56E8 /* AnnotateLocation-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AnnotateLocation-Bridging-Header.h"; sourceTree = "<group>"; };
 		3F90EB891EA48C0300AC56E8 /* Bridging-Header.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Bridging-Header.m"; sourceTree = "<group>"; };
+		E17DDBCA1EAF264F00AB3BB1 /* contacts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = contacts.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				3F90EB7A1EA4892700AC56E8 /* Assets.xcassets */,
 				3F90EB7C1EA4892700AC56E8 /* LaunchScreen.storyboard */,
 				3F90EB7F1EA4892700AC56E8 /* Info.plist */,
+				E17DDBCA1EAF264F00AB3BB1 /* contacts.swift */,
 			);
 			path = AnnotateLocation;
 			sourceTree = "<group>";
@@ -155,6 +158,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E17DDBCB1EAF264F00AB3BB1 /* contacts.swift in Sources */,
 				3F90EB761EA4892700AC56E8 /* ViewController.swift in Sources */,
 				3F90EB741EA4892700AC56E8 /* AppDelegate.swift in Sources */,
 				3F90EB8A1EA48C0300AC56E8 /* Bridging-Header.m in Sources */,
