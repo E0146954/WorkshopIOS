@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController,UITableViewDataSource {
+class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
     
     var contacts: [Contact]!
     @IBOutlet weak var name: UITextField!
@@ -25,6 +25,7 @@ class ViewController: UIViewController,UITableViewDataSource {
     var deleteStatement : OpaquePointer? = nil;
     var queryStatement : OpaquePointer? = nil;
     let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +46,8 @@ class ViewController: UIViewController,UITableViewDataSource {
         }
         prepareStartment();
         tableView.dataSource = self
-        getAllContactData()
+        tableView.delegate = self
+        getAllContactData();
     }
     
     func prepareStartment () {
@@ -67,30 +69,7 @@ class ViewController: UIViewController,UITableViewDataSource {
         sqlite3_prepare_v2(contactDB, cSql!, -1, &queryStatement,nil)
     }
     
-    func getAllContactData() {
-        contacts.removeAll()
-        
-        while sqlite3_step(queryStatement) == SQLITE_ROW {
-            
-            let current = Contact()
-            
-            let name_buf = sqlite3_column_text(queryStatement, 0)
-            current.name = String(cString: name_buf!)
-            
-            let address_buf = sqlite3_column_text(queryStatement, 1)
-            current.address = String(cString: address_buf!)
-            
-            let phone_buf = sqlite3_column_text(queryStatement, 2)
-            current.phone  = String(cString: phone_buf!)
-            
-            contacts.append(current)
-        }
-        
-        sqlite3_reset(queryStatement)
-        
-        tableView.reloadData()
-    }
- 
+    
     @IBAction func createContact(_ sender: Any) {
         let nameStr = name.text as NSString?
         let addressStr = address.text as NSString?
@@ -101,6 +80,9 @@ class ViewController: UIViewController,UITableViewDataSource {
         if (sqlite3_step(insertStatement) == SQLITE_DONE)
         {
             status.text = "Contact added";
+            getAllContactData();
+            tableView.reloadData();
+            
         }
         else {
             status.text = "Failed to add contact";
@@ -145,6 +127,8 @@ class ViewController: UIViewController,UITableViewDataSource {
         if (sqlite3_step(updateStatement) == SQLITE_DONE)
         {
             status.text = "Contact updated";
+            getAllContactData()
+            tableView.reloadData()
         }
         else {
             status.text = "Failed to update contact";
@@ -162,6 +146,8 @@ class ViewController: UIViewController,UITableViewDataSource {
         if (sqlite3_step(deleteStatement) == SQLITE_DONE)
         {
             status.text = "Contact deleted";
+            getAllContactData()
+            tableView.reloadData()
         }
         else {
             status.text = "Failed to delete contact";
@@ -173,6 +159,30 @@ class ViewController: UIViewController,UITableViewDataSource {
         sqlite3_clear_bindings(deleteStatement);
     }
  
+    func getAllContactData() {
+        contacts.removeAll()
+        
+        while sqlite3_step(queryStatement) == SQLITE_ROW {
+            
+            let current = Contact()
+            
+            let name_buf = sqlite3_column_text(queryStatement, 0)
+            current.name = String(cString: name_buf!)
+            
+            let address_buf = sqlite3_column_text(queryStatement, 1)
+            current.address = String(cString: address_buf!)
+            
+            let phone_buf = sqlite3_column_text(queryStatement, 2)
+            current.phone  = String(cString: phone_buf!)
+            
+            contacts.append(current)
+        }
+        
+        sqlite3_reset(queryStatement)
+        
+        tableView.reloadData()
+    }
+
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -191,7 +201,8 @@ class ViewController: UIViewController,UITableViewDataSource {
         cell.textLabel?.text = currentContact.name! + " - " + currentContact.address! + " ( " + currentContact.phone! + " )"
         return cell
     }
-    
+
+ 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
